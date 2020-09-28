@@ -2,7 +2,7 @@
 
 
 
-**Live:** 
+**Live:** [Click Here](https://corona-virus-tracking-app.herokuapp.com/)
 
 
 
