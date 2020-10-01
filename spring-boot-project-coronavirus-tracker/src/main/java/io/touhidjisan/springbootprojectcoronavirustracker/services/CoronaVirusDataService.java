@@ -24,23 +24,26 @@ public class CoronaVirusDataService {
     private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 
     private List<LocationStats> allStats = new ArrayList<>();
-
-
+    
+    
     public List<LocationStats> getAllStats() {
-        return allStats;
-    }
+		return allStats;
+	}
 
-    public void setAllStats(List<LocationStats> allStats) {
-        this.allStats = allStats;
-    }
+	public void setAllStats(List<LocationStats> allStats) {
+		this.allStats = allStats;
+	}
+	
+	
 
 
-    @PostConstruct
-    @Scheduled(cron = "* 10 * * * *")
+
+	@PostConstruct
+    @Scheduled(cron="* 10 * * * *")
     public void fetchVirusData() throws IOException, InterruptedException {
-
-        List<LocationStats> newStats = new ArrayList<>();
-
+    	
+    	List<LocationStats> newStats = new ArrayList<>();
+    	
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(VIRUS_DATA_URL))
@@ -49,23 +52,23 @@ public class CoronaVirusDataService {
 
         StringReader in = new StringReader(httpResponse.body());
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
-
+        
         for (CSVRecord record : records) {
             LocationStats locationStat = new LocationStats();
 
-            int latestTotalCases = Integer.parseInt(record.get(record.size() - 1));
-            int prevDayTotalCases = Integer.parseInt(record.get(record.size() - 2));
-
+            int latestTotalCases = Integer.parseInt(record.get(record.size()-1));
+            int prevDayTotalCases = Integer.parseInt(record.get(record.size()-2));
+            
             locationStat.setState(record.get("Province/State"));
             locationStat.setCountry(record.get("Country/Region"));
             locationStat.setLatestTotalCases(latestTotalCases);
-            locationStat.setDiffPrevDayCases(latestTotalCases - prevDayTotalCases);
-
+            locationStat.setDiffPrevDayCases(latestTotalCases-prevDayTotalCases);
+            
             newStats.add(locationStat);
         }
-
-        this.allStats = newStats;
-
+        
+        this.allStats= newStats;
+        
 
     }
 
