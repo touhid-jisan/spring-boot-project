@@ -12,23 +12,23 @@ import io.touhidjisan.springbootprojectcoronavirustracker.services.CoronaVirusDa
 
 @Controller
 public class HomeController {
-	
-	CoronaVirusDataService coronaVirusDataService;
-	
-	@Autowired
-	public HomeController(CoronaVirusDataService theCoronaVirusDataService) {
-		coronaVirusDataService = theCoronaVirusDataService;
-	}
 
-	@GetMapping("/")
-	public String home(Model model) {
-		
-		List<LocationStats> allStats  = coronaVirusDataService.getAllStats();
-		int totalCase = allStats.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
-		int totalCaseDiffFromPrevDay = allStats.stream().mapToInt(stat -> stat.getDiffPrevDayCases()).sum();
-		model.addAttribute("allStats", allStats);
-		model.addAttribute("totalCase", totalCase);
-		model.addAttribute("totalCaseDiffFromPrevDay", totalCaseDiffFromPrevDay);
-		return "home";
-	}
+    CoronaVirusDataService coronaVirusDataService;
+
+    @Autowired
+    public HomeController(CoronaVirusDataService theCoronaVirusDataService) {
+        coronaVirusDataService = theCoronaVirusDataService;
+    }
+
+    @GetMapping("/")
+    public String home(Model model) {
+
+        List<LocationStats> allStats = coronaVirusDataService.getAllStats();
+        int totalCase = allStats.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
+        int totalCaseDiffFromPrevDay = allStats.stream().mapToInt(stat -> stat.getDiffPrevDayCases()).sum();
+        model.addAttribute("allStats", allStats);
+        model.addAttribute("totalCase", totalCase);
+        model.addAttribute("totalCaseDiffFromPrevDay", totalCaseDiffFromPrevDay);
+        return "home";
+    }
 }

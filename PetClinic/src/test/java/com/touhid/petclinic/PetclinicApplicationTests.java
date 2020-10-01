@@ -1,10 +1,10 @@
-package io.touhidjisan.springbootprojectcoronavirustracker;
+package com.touhid.petclinic;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CoronavirusTrackerApplicationTests {
+class PetclinicApplicationTests {
 
     @Test
     void contextLoads() {
